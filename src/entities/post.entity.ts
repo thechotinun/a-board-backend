@@ -12,16 +12,14 @@ export class Post extends BaseEntity {
   @Column({ type: 'varchar', length: 255, nullable: false })
   description: string;
 
-  @Column({ name: 'communityId', type: 'uuid' })
-  @ManyToOne(() => Community)
+  @ManyToOne(() => Community, (community) => community.post)
   @JoinColumn({ name: 'communityId' })
-  community: string;
+  community: Community;
 
   @OneToMany(() => Comment, (comment) => comment.post)
   comment: Comment[];
 
-  @Column({ name: 'userId', type: 'uuid' })
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.post)
   @JoinColumn({ name: 'userId' })
-  user: string;
+  user: User;
 }

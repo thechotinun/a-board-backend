@@ -7,6 +7,7 @@ import TypeOrmConfigService from '@config/typeorm/default';
 import { APP_FILTER } from '@nestjs/core';
 import { ExceptionFilter } from '@exceptions/exception.filter';
 import { AuthModule } from '@modules/auth/auth.module';
+import { PostModule } from '@modules/post/post.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from '@modules/auth/auth.module';
       },
     }),
     AuthModule,
+    PostModule,
   ],
   controllers: [],
   providers: [
