@@ -4,7 +4,9 @@ import { LoginDto } from '@modules/auth/dto/login.dto';
 import { UseResources } from 'interceptors/use-resources.interceptor';
 import { AuthResourceDto } from '@modules/auth/resources/auth.resource';
 import { ApiResource } from '@common/reponses/api-resource';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Authentication')
 @Controller('api/v1/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
