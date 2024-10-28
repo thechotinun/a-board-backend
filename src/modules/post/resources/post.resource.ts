@@ -10,6 +10,11 @@ class CommunityDto {
   name: string;
 }
 
+class UserDto {
+  @Expose()
+  userName: string;
+}
+
 export class PostDto extends BaseResourceDto {
   @Expose()
   title: string;
@@ -20,6 +25,10 @@ export class PostDto extends BaseResourceDto {
   @Expose()
   @Type(() => CommunityDto)
   community: CommunityDto;
+
+  @Expose()
+  @Type(() => UserDto)
+  user: UserDto;
 
   @Expose()
   commentCount: number;

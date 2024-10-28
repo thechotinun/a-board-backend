@@ -7,6 +7,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PostRepository } from '@repositories/post.repository';
 import { CommunityRepository } from '@repositories/community.repository';
 import { CommentRepository } from '@repositories/comment.repository';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class PostService {
@@ -68,5 +73,22 @@ export class PostService {
     } catch (error) {
       throw PostException.createError(error.message);
     }
+  }
+
+  async paginate(options: IPaginationOptions): Promise<Pagination<Post>> {
+    const queryBuilder = this.postRepository
+      .createQueryBuilder('posts')
+      .select([
+        'posts.id',
+        'posts.title',
+        'posts.description',
+        'posts.createdDate',
+      ])
+      .leftJoinAndSelect('posts.user', 'user')
+      .leftJoinAndSelect('posts.community', 'community')
+      .loadRelationCountAndMap('posts.commentCount', 'posts.comment')
+      .orderBy('posts.createdDate', 'DESC');
+
+    return paginate<Post>(queryBuilder, options);
   }
 }
