@@ -1,8 +1,11 @@
-import { Req, Body, Controller, Post } from '@nestjs/common';
+import { Req, Body, Controller, Post, Get, Query } from '@nestjs/common';
 import { Request } from 'express';
+import { PaginateQuery } from '@common/dto/paginate.query';
 import { PostService } from '@modules/post/services/post.service';
 import { ApiResource } from '@common/reponses/api-resource';
 import { CreatePostDto } from '@modules/post/dto/create-post.dto';
+import { UseResources } from 'interceptors/use-resources.interceptor';
+import { PostResourceDto } from '@modules/post/resources/post.resource';
 import { AuthenticatedRequest } from '@common/middlewares/auth/authenticate.middlewares';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { ApiTags } from '@nestjs/swagger';
@@ -23,6 +26,24 @@ export class PostController {
       const response = await this.postService.create(payload, user);
 
       return ApiResource.successResponse(response);
+    } catch (error) {
+      return ApiResource.errorResponse(error);
+    }
+  }
+
+  @Get()
+  @UseResources(PostResourceDto)
+  async paginate(
+    @Query() { page, limit }: PaginateQuery,
+  ): Promise<ApiResource> {
+    try {
+      const reponse = await this.postService.paginate({
+        page,
+        limit,
+      });
+      console.log(reponse);
+
+      return ApiResource.successResponse(reponse);
     } catch (error) {
       return ApiResource.errorResponse(error);
     }
