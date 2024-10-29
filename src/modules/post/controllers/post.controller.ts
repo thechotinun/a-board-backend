@@ -19,7 +19,7 @@ import { UseResources } from '@interceptors/use-resources.interceptor';
 import { PostResourceDto } from '@modules/post/resources/post.resource';
 import { AuthenticatedRequest } from '@common/middlewares/auth/authenticate.middlewares';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiQuery } from '@nestjs/swagger';
 
 @ApiTags('Post')
 @Controller('api/v1/post')
@@ -44,6 +44,18 @@ export class PostController {
 
   @Get()
   @UseResources(PostResourceDto)
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Page number',
+  })
+  @ApiQuery({
+    name: 'perPage',
+    required: false,
+    type: Number,
+    description: 'Items per page',
+  })
   async paginate(
     @Query() { page, limit }: PaginateQuery,
   ): Promise<ApiResource> {
