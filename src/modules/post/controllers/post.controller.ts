@@ -1,9 +1,19 @@
-import { Req, Body, Controller, Post, Get, Query, Param } from '@nestjs/common';
+import {
+  Req,
+  Body,
+  Controller,
+  Post,
+  Get,
+  Query,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { PaginateQuery } from '@common/dto/paginate.query';
 import { PostService } from '@modules/post/services/post.service';
 import { ApiResource } from '@common/reponses/api-resource';
 import { CreatePostDto } from '@modules/post/dto/create-post.dto';
+import { UpdatePostDto } from '@modules/post/dto/update-post.dto';
 import { UseResources } from '@interceptors/use-resources.interceptor';
 import { PostResourceDto } from '@modules/post/resources/post.resource';
 import { AuthenticatedRequest } from '@common/middlewares/auth/authenticate.middlewares';
@@ -52,6 +62,23 @@ export class PostController {
   async findOneById(@Param('id') id: string): Promise<ApiResource> {
     try {
       const response = await this.postService.findOneById(id);
+
+      return ApiResource.successResponse(response);
+    } catch (error) {
+      return ApiResource.errorResponse(error);
+    }
+  }
+
+  @ApiBearerAuth()
+  @Patch(':id')
+  async update(
+    @Req() request: Request,
+    @Param('id') id: string,
+    @Body() payload: UpdatePostDto,
+  ): Promise<ApiResource> {
+    try {
+      const user = (request as AuthenticatedRequest).user;
+      const response = await this.postService.update(id, payload, user);
 
       return ApiResource.successResponse(response);
     } catch (error) {

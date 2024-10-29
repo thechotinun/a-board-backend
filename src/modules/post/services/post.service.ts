@@ -2,6 +2,7 @@ import { Post } from '@entities/post.entity';
 import { User } from '@entities/user.entity';
 import { PostException } from '@exceptions/app/post.exception';
 import { CreatePostDto } from '@modules/post/dto/create-post.dto';
+import { UpdatePostDto } from '@modules/post/dto/update-post.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostRepository } from '@repositories/post.repository';
@@ -116,5 +117,37 @@ export class PostService {
       .catch(() => {
         throw PostException.notFound();
       });
+  }
+
+  async update(id: string, payload: UpdatePostDto, user: User): Promise<Post> {
+    try {
+      let community: { id: string; name: string };
+      if (payload.communityId) {
+        community = await this.checkCommunity(payload.communityId);
+
+        if (!community) {
+          throw new Error('COMMUNITY_NOT_FOUND');
+        }
+      }
+
+      const post = await this.postRepository.findOne({
+        where: { id: id, user: user },
+      });
+      if (!post) {
+        throw new Error('POST_NOT_FOUND');
+      }
+
+      delete payload.communityId;
+
+      await this.postRepository.update(id, {
+        ...payload,
+        community: community,
+        updatedBy: user.id,
+      });
+
+      return await this.findOneById(id);
+    } catch (error) {
+      throw PostException.updateError(error.message);
+    }
   }
 }
