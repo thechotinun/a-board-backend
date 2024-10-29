@@ -91,4 +91,30 @@ export class PostService {
 
     return paginate<Post>(queryBuilder, options);
   }
+
+  async findOneById(id: string): Promise<Post> {
+    return await this.postRepository
+      .findOneOrFail({
+        where: {
+          id: id,
+        },
+        relations: ['community', 'user'],
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          createdDate: true,
+          community: {
+            id: true,
+            name: true,
+          },
+          user: {
+            userName: true,
+          },
+        },
+      })
+      .catch(() => {
+        throw PostException.notFound();
+      });
+  }
 }
