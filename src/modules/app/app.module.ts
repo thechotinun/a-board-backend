@@ -9,6 +9,7 @@ import { ExceptionFilter } from '@exceptions/exception.filter';
 import { AuthModule } from '@modules/auth/auth.module';
 import { PostModule } from '@modules/post/post.module';
 import { UserModule } from '@modules/user/user.module';
+import { CommunityModule } from '@modules/community/community.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UserModule } from '@modules/user/user.module';
     AuthModule,
     PostModule,
     UserModule,
+    CommunityModule,
   ],
   controllers: [],
   providers: [
