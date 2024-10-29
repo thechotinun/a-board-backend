@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { LoginDto } from '@modules/auth/dto/login.dto';
-import { UseResources } from 'interceptors/use-resources.interceptor';
+import { UseResources } from '@interceptors/use-resources.interceptor';
 import { AuthResourceDto } from '@modules/auth/resources/auth.resource';
 import { ApiResource } from '@common/reponses/api-resource';
 
