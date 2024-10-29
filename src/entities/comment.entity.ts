@@ -4,17 +4,15 @@ import { Post } from './post.entity';
 import { User } from './user.entity';
 
 @Entity('comments')
-export class Comment extends BaseEntity {
+export class PostComment extends BaseEntity {
   @Column({ type: 'varchar', length: 100, nullable: false })
   text: string;
 
-  @Column({ name: 'postId', type: 'uuid' })
-  @ManyToOne(() => Post)
+  @ManyToOne(() => Post, (post) => post.comment)
   @JoinColumn({ name: 'postId' })
-  post: string;
+  post: Post;
 
-  @Column({ name: 'userId', type: 'uuid' })
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.post)
   @JoinColumn({ name: 'userId' })
-  user: string;
+  user: User;
 }

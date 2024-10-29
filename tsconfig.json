@@ -14,7 +14,7 @@
       "@config/*": ["config/*"],
       "@entities/*": ["entities/*"],
       "@modules/*": ["modules/*"],
-      "@interfaces/*": ["interfaces/*"],
+      "@interceptors/*": ["interceptors/*"],
       "@repositories/*": ["repositories/*"],
       "@utils/*": ["utils/*"],
       "@common/*": ["common/*"],
