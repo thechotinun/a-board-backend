@@ -13,6 +13,7 @@ import {
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
+import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class PostService {
@@ -148,6 +149,23 @@ export class PostService {
       return await this.findOneById(id);
     } catch (error) {
       throw PostException.updateError(error.message);
+    }
+  }
+
+  async remove(id: string, user: User): Promise<UpdateResult> {
+    try {
+      const post = await this.postRepository.findOne({
+        where: { id: id, user: user },
+      });
+      if (!post) {
+        throw new Error('POST_NOT_FOUND');
+      }
+
+      await this.findOneById(id);
+
+      return await this.postRepository.softDelete(id);
+    } catch (error) {
+      throw PostException.deleteError(error.message);
     }
   }
 }

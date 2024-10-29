@@ -7,6 +7,7 @@ import {
   Query,
   Param,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { PaginateQuery } from '@common/dto/paginate.query';
@@ -79,6 +80,22 @@ export class PostController {
     try {
       const user = (request as AuthenticatedRequest).user;
       const response = await this.postService.update(id, payload, user);
+
+      return ApiResource.successResponse(response);
+    } catch (error) {
+      return ApiResource.errorResponse(error);
+    }
+  }
+
+  @ApiBearerAuth()
+  @Delete(':id')
+  async remove(
+    @Req() request: Request,
+    @Param('id') id: string,
+  ): Promise<ApiResource> {
+    try {
+      const user = (request as AuthenticatedRequest).user;
+      const response = await this.postService.remove(id, user);
 
       return ApiResource.successResponse(response);
     } catch (error) {
