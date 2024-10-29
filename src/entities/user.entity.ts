@@ -1,7 +1,7 @@
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 import { OauthUser } from './o-auth-user.entity';
 import { Post } from './post.entity';
-import { Comment } from './comment.entity';
+import { PostComment } from './comment.entity';
 
 @Entity('users')
 export class User {
@@ -17,6 +17,6 @@ export class User {
   @OneToMany(() => Post, (post) => post.user)
   post: Post[];
 
-  @OneToMany(() => Comment, (comment) => comment.user)
-  comment: Comment[];
+  @OneToMany(() => PostComment, (comment) => comment.user)
+  comment: PostComment[];
 }

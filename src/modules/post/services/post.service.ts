@@ -1,8 +1,11 @@
 import { Post } from '@entities/post.entity';
 import { User } from '@entities/user.entity';
+import { PostComment } from '@entities/comment.entity';
 import { PostException } from '@exceptions/app/post.exception';
 import { CreatePostDto } from '@modules/post/dto/create-post.dto';
 import { UpdatePostDto } from '@modules/post/dto/update-post.dto';
+import { CreateCommentDto } from '@modules/post/dto/create-comment.dto';
+import { UpdateCommentDto } from '@modules/post/dto/update-comment.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostRepository } from '@repositories/post.repository';
@@ -166,6 +169,83 @@ export class PostService {
       return await this.postRepository.softDelete(id);
     } catch (error) {
       throw PostException.deleteError(error.message);
+    }
+  }
+
+  //PostComment
+
+  async createComment(
+    postId: string,
+    payload: CreateCommentDto,
+    user: User,
+  ): Promise<PostComment> {
+    try {
+      const post = await this.checkPost(postId);
+
+      if (!post) {
+        throw new Error('COMMENT_NOT_FOUND');
+      }
+
+      const create = await this.commentRepository.create(payload);
+      create.post = post;
+      create.user = user;
+      create.createdBy = user.id;
+      create.updatedBy = user.id;
+
+      const saveComment = await this.commentRepository.save(create);
+
+      const commentFromUser = await this.commentRepository.findOne({
+        where: { id: saveComment.id },
+        select: {
+          id: true,
+          text: true,
+          createdDate: true,
+        },
+      });
+
+      return commentFromUser;
+    } catch (error) {
+      throw PostException.createError(error.message);
+    }
+  }
+
+  async updateComment(
+    postId: string,
+    id: string,
+    payload: UpdateCommentDto,
+    user: User,
+  ): Promise<PostComment> {
+    try {
+      const post = await this.checkPost(postId);
+      if (!post) {
+        throw new Error('COMMENT_NOT_FOUND');
+      }
+
+      const comment = await this.commentRepository.findOne({
+        where: { id: id, user: { id: user.id }, post: { id: post.id } },
+        relations: ['user', 'post'],
+      });
+      if (!comment) {
+        throw new Error('COMMENT_NOT_FOUND');
+      }
+
+      await this.commentRepository.update(id, {
+        ...payload,
+        updatedBy: user.id,
+      });
+
+      const updateCommentFromUser = await this.commentRepository.findOne({
+        where: { id: id },
+        select: {
+          id: true,
+          text: true,
+          createdDate: true,
+        },
+      });
+
+      return updateCommentFromUser;
+    } catch (error) {
+      throw PostException.updateError(error.message);
     }
   }
 }

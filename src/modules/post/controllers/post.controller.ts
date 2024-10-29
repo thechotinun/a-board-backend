@@ -15,17 +15,19 @@ import { PostService } from '@modules/post/services/post.service';
 import { ApiResource } from '@common/reponses/api-resource';
 import { CreatePostDto } from '@modules/post/dto/create-post.dto';
 import { UpdatePostDto } from '@modules/post/dto/update-post.dto';
+import { CreateCommentDto } from '@modules/post/dto/create-comment.dto';
+import { UpdateCommentDto } from '@modules/post/dto/update-comment.dto';
 import { UseResources } from '@interceptors/use-resources.interceptor';
 import { PostResourceDto } from '@modules/post/resources/post.resource';
 import { AuthenticatedRequest } from '@common/middlewares/auth/authenticate.middlewares';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { ApiTags, ApiQuery } from '@nestjs/swagger';
 
-@ApiTags('Post')
 @Controller('api/v1/post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
+  @ApiTags('Post')
   @ApiBearerAuth()
   @Post()
   async create(
@@ -42,6 +44,7 @@ export class PostController {
     }
   }
 
+  @ApiTags('Post')
   @Get()
   @UseResources(PostResourceDto)
   @ApiQuery({
@@ -71,6 +74,7 @@ export class PostController {
     }
   }
 
+  @ApiTags('Post')
   @Get(':id')
   async findOneById(@Param('id') id: string): Promise<ApiResource> {
     try {
@@ -82,6 +86,7 @@ export class PostController {
     }
   }
 
+  @ApiTags('Post')
   @ApiBearerAuth()
   @Patch(':id')
   async update(
@@ -99,6 +104,7 @@ export class PostController {
     }
   }
 
+  @ApiTags('Post')
   @ApiBearerAuth()
   @Delete(':id')
   async remove(
@@ -108,6 +114,54 @@ export class PostController {
     try {
       const user = (request as AuthenticatedRequest).user;
       const response = await this.postService.remove(id, user);
+
+      return ApiResource.successResponse(response);
+    } catch (error) {
+      return ApiResource.errorResponse(error);
+    }
+  }
+
+  //PostComment
+
+  @ApiTags('Comment')
+  @ApiBearerAuth()
+  @Post(':postId/comment')
+  async createComment(
+    @Req() request: Request,
+    @Param('postId') postId: string,
+    @Body() payload: CreateCommentDto,
+  ): Promise<ApiResource> {
+    try {
+      const user = (request as AuthenticatedRequest).user;
+      const response = await this.postService.createComment(
+        postId,
+        payload,
+        user,
+      );
+
+      return ApiResource.successResponse(response);
+    } catch (error) {
+      return ApiResource.errorResponse(error);
+    }
+  }
+
+  @ApiTags('Comment')
+  @ApiBearerAuth()
+  @Patch(':postId/comment/:id')
+  async updateComment(
+    @Req() request: Request,
+    @Param('postId') postId: string,
+    @Param('id') id: string,
+    @Body() payload: UpdateCommentDto,
+  ): Promise<ApiResource> {
+    try {
+      const user = (request as AuthenticatedRequest).user;
+      const response = await this.postService.updateComment(
+        postId,
+        id,
+        payload,
+        user,
+      );
 
       return ApiResource.successResponse(response);
     } catch (error) {

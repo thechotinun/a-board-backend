@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { BaseEntity } from './base-entity';
 import { Community } from './community.entity';
-import { Comment } from './comment.entity';
+import { PostComment } from './comment.entity';
 import { User } from './user.entity';
 
 @Entity('posts')
@@ -16,8 +16,8 @@ export class Post extends BaseEntity {
   @JoinColumn({ name: 'communityId' })
   community: Community;
 
-  @OneToMany(() => Comment, (comment) => comment.post)
-  comment: Comment[];
+  @OneToMany(() => PostComment, (comment) => comment.post)
+  comment: PostComment[];
 
   @ManyToOne(() => User, (user) => user.post)
   @JoinColumn({ name: 'userId' })

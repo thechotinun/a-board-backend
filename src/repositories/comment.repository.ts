@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { BaseRepository } from './base.repository';
-import { Comment } from '@entities/comment.entity';
+import { PostComment } from '@entities/comment.entity';
 
 @Injectable()
-export class CommentRepository extends BaseRepository<Comment> {
+export class CommentRepository extends BaseRepository<PostComment> {
   constructor(private dataSource: DataSource) {
-    super(Comment, dataSource.createEntityManager());
+    super(PostComment, dataSource.createEntityManager());
   }
 }
