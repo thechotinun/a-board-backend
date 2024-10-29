@@ -210,6 +210,25 @@ export class PostService {
     }
   }
 
+  async paginatePostComment(
+    postId: string,
+    options: IPaginationOptions,
+  ): Promise<Pagination<PostComment>> {
+    const queryBuilder = this.commentRepository
+      .createQueryBuilder('comment')
+      .select([
+        'comment.id',
+        'comment.text',
+        'comment.createdDate',
+        'user.userName',
+      ])
+      .leftJoin('comment.user', 'user')
+      .where('comment.post = :postId', { postId })
+      .orderBy('comment.createdDate', 'DESC');
+
+    return paginate<PostComment>(queryBuilder, options);
+  }
+
   async updateComment(
     postId: string,
     id: string,

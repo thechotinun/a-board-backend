@@ -32,6 +32,7 @@ export class PostModule implements NestModule {
       .exclude(
         { path: 'api/v1/post', method: RequestMethod.GET },
         { path: 'api/v1/post/:id', method: RequestMethod.GET },
+        { path: 'api/v1/post/:postId/comment', method: RequestMethod.GET },
       )
       .forRoutes(PostController);
   }

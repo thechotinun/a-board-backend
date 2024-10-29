@@ -19,6 +19,7 @@ import { CreateCommentDto } from '@modules/post/dto/create-comment.dto';
 import { UpdateCommentDto } from '@modules/post/dto/update-comment.dto';
 import { UseResources } from '@interceptors/use-resources.interceptor';
 import { PostResourceDto } from '@modules/post/resources/post.resource';
+import { PostCommentResourceDto } from '@modules/post/resources/comment.resource';
 import { AuthenticatedRequest } from '@common/middlewares/auth/authenticate.middlewares';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { ApiTags, ApiQuery } from '@nestjs/swagger';
@@ -140,6 +141,37 @@ export class PostController {
       );
 
       return ApiResource.successResponse(response);
+    } catch (error) {
+      return ApiResource.errorResponse(error);
+    }
+  }
+
+  @ApiTags('Comment')
+  @Get(':postId/comment')
+  @UseResources(PostCommentResourceDto)
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Page number',
+  })
+  @ApiQuery({
+    name: 'perPage',
+    required: false,
+    type: Number,
+    description: 'Items per page',
+  })
+  async paginatePostComment(
+    @Param('postId') postId: string,
+    @Query() { page, limit }: PaginateQuery,
+  ): Promise<ApiResource> {
+    try {
+      const reponse = await this.postService.paginatePostComment(postId, {
+        page,
+        limit,
+      });
+
+      return ApiResource.successResponse(reponse);
     } catch (error) {
       return ApiResource.errorResponse(error);
     }
