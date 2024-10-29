@@ -168,4 +168,22 @@ export class PostController {
       return ApiResource.errorResponse(error);
     }
   }
+
+  @ApiTags('Comment')
+  @ApiBearerAuth()
+  @Delete(':postId/comment/:id')
+  async removeComment(
+    @Req() request: Request,
+    @Param('postId') postId: string,
+    @Param('id') id: string,
+  ): Promise<ApiResource> {
+    try {
+      const user = (request as AuthenticatedRequest).user;
+      const response = await this.postService.removeComment(postId, id, user);
+
+      return ApiResource.successResponse(response);
+    } catch (error) {
+      return ApiResource.errorResponse(error);
+    }
+  }
 }

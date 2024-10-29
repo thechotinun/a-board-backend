@@ -98,29 +98,30 @@ export class PostService {
   }
 
   async findOneById(id: string): Promise<Post> {
-    return await this.postRepository
-      .findOneOrFail({
-        where: {
-          id: id,
-        },
-        relations: ['community', 'user'],
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          createdDate: true,
-          community: {
-            id: true,
-            name: true,
-          },
-          user: {
-            userName: true,
-          },
-        },
-      })
-      .catch(() => {
-        throw PostException.notFound();
-      });
+    try {
+      const post = await this.postRepository
+        .createQueryBuilder('post')
+        .select([
+          'post.id',
+          'post.title',
+          'post.description',
+          'post.createdDate',
+          'user.userName',
+        ])
+        .leftJoin('post.user', 'user')
+        .leftJoinAndSelect('post.community', 'community')
+        .loadRelationCountAndMap('post.commentCount', 'post.comment')
+        .where('post.id = :id', { id })
+        .getOne();
+
+      if (!post) {
+        throw new Error('Post not found');
+      }
+
+      return post;
+    } catch (error) {
+      throw PostException.notFound();
+    }
   }
 
   async update(id: string, payload: UpdatePostDto, user: User): Promise<Post> {
@@ -246,6 +247,31 @@ export class PostService {
       return updateCommentFromUser;
     } catch (error) {
       throw PostException.updateError(error.message);
+    }
+  }
+
+  async removeComment(
+    postId: string,
+    id: string,
+    user: User,
+  ): Promise<UpdateResult> {
+    try {
+      const post = await this.checkPost(postId);
+
+      if (!post) {
+        throw new Error('COMMENT_NOT_FOUND');
+      }
+
+      const comment = await this.commentRepository.findOne({
+        where: { id: id, user: { id: user.id }, post: { id: post.id } },
+      });
+      if (!comment) {
+        throw new Error('COMMENT_NOT_FOUND');
+      }
+
+      return await this.commentRepository.softDelete(id);
+    } catch (error) {
+      throw PostException.deleteError(error.message);
     }
   }
 }
