@@ -29,7 +29,10 @@ export class PostModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthenticateMiddleware)
-      .exclude({ path: 'api/v1/post', method: RequestMethod.GET })
+      .exclude(
+        { path: 'api/v1/post', method: RequestMethod.GET },
+        { path: 'api/v1/post/:id', method: RequestMethod.GET },
+      )
       .forRoutes(PostController);
   }
 }
