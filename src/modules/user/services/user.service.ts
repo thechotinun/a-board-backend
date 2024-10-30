@@ -23,7 +23,7 @@ export class UserService implements OnModuleInit {
         userName: 'admin',
       });
       await this.userRepository.save(user);
-      console.log('You can use it with username: "admin"');
+      console.log('You can sign-in with username: "admin"');
     } else {
       console.log('username: "admin" already exists');
     }
