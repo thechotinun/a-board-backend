@@ -7,10 +7,13 @@ import {
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
+import { Logger } from '@common/logger/logger.service';
 
 @Injectable()
 export class CommunityService implements OnModuleInit {
   constructor(
+    private readonly logger: Logger,
+
     @InjectRepository(CommunityRepository)
     private readonly communityRepository: CommunityRepository,
   ) {}
@@ -38,9 +41,9 @@ export class CommunityService implements OnModuleInit {
       if (!existingCommunity) {
         const community = this.communityRepository.create({ name });
         await this.communityRepository.save(community);
-        console.log(`Community "${name}" created.`);
+        this.logger.log(`Community "${name}" created.`);
       } else {
-        console.log(`Community "${name}" already exists.`);
+        this.logger.debug(`Community "${name}" already exists.`);
       }
     }
   }

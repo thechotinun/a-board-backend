@@ -4,6 +4,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostRepository } from '@repositories/post.repository';
 import { UserRepository } from '@repositories/user.repository';
+import { Logger } from '@common/logger/logger.service';
 import {
   IPaginationOptions,
   Pagination,
@@ -13,6 +14,8 @@ import {
 @Injectable()
 export class UserService implements OnModuleInit {
   constructor(
+    private readonly logger: Logger,
+
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
 
@@ -25,18 +28,20 @@ export class UserService implements OnModuleInit {
   }
 
   private async seedUser() {
-    const existingUser = await this.userRepository.findOne({
-      where: { userName: 'admin' },
-    });
+    const userNames = ['test', 'user', 'user01', 'admin', 'admin01'];
 
-    if (!existingUser) {
-      const user = this.userRepository.create({
-        userName: 'admin',
+    for (const userName of userNames) {
+      const existingUser = await this.userRepository.findOne({
+        where: { userName: userName },
       });
-      await this.userRepository.save(user);
-      console.log('You can sign-in with username: "admin"');
-    } else {
-      console.log('username: "admin" already exists');
+
+      if (!existingUser) {
+        const user = this.userRepository.create({ userName });
+        await this.userRepository.save(user);
+        this.logger.log(`You can sign-in with username: "${userName}"`);
+      } else {
+        this.logger.debug(`username: "${userName}" already exists`);
+      }
     }
   }
 
