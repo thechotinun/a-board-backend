@@ -6,10 +6,10 @@ import { User } from './user.entity';
 
 @Entity('posts')
 export class Post extends BaseEntity {
-  @Column({ type: 'varchar', length: 100, nullable: false })
+  @Column({ type: 'varchar', length: 255, nullable: false })
   title: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'text', nullable: false })
   description: string;
 
   @ManyToOne(() => Community, (community) => community.post)
