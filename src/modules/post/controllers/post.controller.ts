@@ -49,10 +49,16 @@ export class PostController {
   @Get()
   @UseResources(PostResourceDto)
   @ApiQuery({
-    name: 'page',
+    name: 'communityId',
     required: false,
-    type: Number,
-    description: 'Page number',
+    type: String,
+    description: 'Search Items with community id',
+  })
+  @ApiQuery({
+    name: 'title',
+    required: false,
+    type: String,
+    description: 'Search Items with title',
   })
   @ApiQuery({
     name: 'perPage',
@@ -61,10 +67,10 @@ export class PostController {
     description: 'Items per page',
   })
   @ApiQuery({
-    name: 'title',
+    name: 'page',
     required: false,
-    type: String,
-    description: 'Search Items with title',
+    type: Number,
+    description: 'Page number',
   })
   async paginate(
     @Query() { page, limit }: PaginateQuery,

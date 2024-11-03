@@ -30,10 +30,16 @@ export class UserController {
   @Get('post')
   @UseResources(PostResourceDto)
   @ApiQuery({
-    name: 'page',
+    name: 'communityId',
     required: false,
-    type: Number,
-    description: 'Page number',
+    type: String,
+    description: 'Search Items with community id',
+  })
+  @ApiQuery({
+    name: 'title',
+    required: false,
+    type: String,
+    description: 'Search Items with title',
   })
   @ApiQuery({
     name: 'perPage',
@@ -42,10 +48,10 @@ export class UserController {
     description: 'Items per page',
   })
   @ApiQuery({
-    name: 'title',
+    name: 'page',
     required: false,
-    type: String,
-    description: 'Search Items with title',
+    type: Number,
+    description: 'Page number',
   })
   async paginate(
     @Req() request: Request,
