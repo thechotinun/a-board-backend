@@ -50,9 +50,10 @@ export class UserService implements OnModuleInit {
     options: IPaginationOptions,
     query: {
       title?: string;
+      communityId?: string;
     },
   ): Promise<Pagination<Post>> {
-    const { title } = query;
+    const { title, communityId } = query;
     const queryBuilder = this.postRepository
       .createQueryBuilder('posts')
       .select([
@@ -69,6 +70,10 @@ export class UserService implements OnModuleInit {
 
     if (title) {
       queryBuilder.andWhere('posts.title LIKE :title', { title: `%${title}%` });
+    }
+
+    if (communityId) {
+      queryBuilder.andWhere('community.id = :communityId', { communityId });
     }
 
     return paginate<Post>(queryBuilder, options);

@@ -71,6 +71,7 @@ export class PostController {
     @Query()
     query: {
       title?: string;
+      communityId?: string;
     },
   ): Promise<ApiResource> {
     try {

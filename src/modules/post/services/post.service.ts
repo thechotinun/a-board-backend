@@ -84,9 +84,10 @@ export class PostService {
     options: IPaginationOptions,
     query: {
       title?: string;
+      communityId?: string;
     },
   ): Promise<Pagination<Post>> {
-    const { title } = query;
+    const { title, communityId } = query;
     const queryBuilder = this.postRepository
       .createQueryBuilder('posts')
       .select([
@@ -102,6 +103,10 @@ export class PostService {
 
     if (title) {
       queryBuilder.where('posts.title LIKE :title', { title: `%${title}%` });
+    }
+
+    if (communityId) {
+      queryBuilder.where('community.id = :communityId', { communityId });
     }
 
     return paginate<Post>(queryBuilder, options);

@@ -53,6 +53,7 @@ export class UserController {
     @Query()
     query: {
       title?: string;
+      communityId?: string;
     },
   ): Promise<ApiResource> {
     try {
