@@ -42,6 +42,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 You will see a log like this :
+
 ![1](test.png)
 ![2](test-cov.png)
 ## Running the app
