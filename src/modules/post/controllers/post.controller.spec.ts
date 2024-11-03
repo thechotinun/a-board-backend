@@ -39,7 +39,7 @@ describe('PostController', () => {
         .spyOn(postService, 'paginate')
         .mockResolvedValue(mockPaginationResult);
 
-      const result = await postController.paginate({ page: 1, limit: 10 });
+      const result = await postController.paginate({ page: 1, limit: 10 }, {});
 
       expect(result).toEqual({
         data: [],
