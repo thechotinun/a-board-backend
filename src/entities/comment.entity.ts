@@ -5,7 +5,7 @@ import { User } from './user.entity';
 
 @Entity('comments')
 export class PostComment extends BaseEntity {
-  @Column({ type: 'varchar', length: 100, nullable: false })
+  @Column({ type: 'text', nullable: false })
   text: string;
 
   @ManyToOne(() => Post, (post) => post.comment)

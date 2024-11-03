@@ -4,12 +4,11 @@ import { IsNotEmpty, MaxLength, IsOptional } from 'class-validator';
 export class UpdatePostDto {
   @ApiProperty({ required: false })
   @IsOptional()
-  @MaxLength(100)
+  @MaxLength(255)
   title: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @MaxLength(255)
   description: string;
 
   @ApiProperty({ required: false })

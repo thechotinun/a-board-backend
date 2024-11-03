@@ -8,11 +8,10 @@ export class CreatePostDto {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  @MaxLength(100)
+  @MaxLength(255)
   title: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  @MaxLength(255)
   description: string;
 }

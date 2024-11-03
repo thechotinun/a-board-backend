@@ -48,7 +48,12 @@ export class UserService implements OnModuleInit {
   async paginate(
     user: User,
     options: IPaginationOptions,
+    query: {
+      title?: string;
+      communityId?: string;
+    },
   ): Promise<Pagination<Post>> {
+    const { title, communityId } = query;
     const queryBuilder = this.postRepository
       .createQueryBuilder('posts')
       .select([
@@ -62,6 +67,14 @@ export class UserService implements OnModuleInit {
       .loadRelationCountAndMap('posts.commentCount', 'posts.comment')
       .where('user.id = :userId', { userId: user.id })
       .orderBy('posts.createdDate', 'DESC');
+
+    if (title) {
+      queryBuilder.andWhere('posts.title LIKE :title', { title: `%${title}%` });
+    }
+
+    if (communityId) {
+      queryBuilder.andWhere('community.id = :communityId', { communityId });
+    }
 
     return paginate<Post>(queryBuilder, options);
   }
