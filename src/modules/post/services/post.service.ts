@@ -80,7 +80,13 @@ export class PostService {
     }
   }
 
-  async paginate(options: IPaginationOptions): Promise<Pagination<Post>> {
+  async paginate(
+    options: IPaginationOptions,
+    query: {
+      title?: string;
+    },
+  ): Promise<Pagination<Post>> {
+    const { title } = query;
     const queryBuilder = this.postRepository
       .createQueryBuilder('posts')
       .select([
@@ -93,6 +99,10 @@ export class PostService {
       .leftJoinAndSelect('posts.community', 'community')
       .loadRelationCountAndMap('posts.commentCount', 'posts.comment')
       .orderBy('posts.createdDate', 'DESC');
+
+    if (title) {
+      queryBuilder.where('posts.title LIKE :title', { title: `%${title}%` });
+    }
 
     return paginate<Post>(queryBuilder, options);
   }

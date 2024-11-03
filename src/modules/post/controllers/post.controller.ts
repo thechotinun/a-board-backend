@@ -60,14 +60,27 @@ export class PostController {
     type: Number,
     description: 'Items per page',
   })
+  @ApiQuery({
+    name: 'title',
+    required: false,
+    type: String,
+    description: 'Search Items with title',
+  })
   async paginate(
     @Query() { page, limit }: PaginateQuery,
+    @Query()
+    query: {
+      title?: string;
+    },
   ): Promise<ApiResource> {
     try {
-      const reponse = await this.postService.paginate({
-        page,
-        limit,
-      });
+      const reponse = await this.postService.paginate(
+        {
+          page,
+          limit,
+        },
+        query,
+      );
 
       return ApiResource.successResponse(reponse);
     } catch (error) {

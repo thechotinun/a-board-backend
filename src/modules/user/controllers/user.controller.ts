@@ -41,16 +41,30 @@ export class UserController {
     type: Number,
     description: 'Items per page',
   })
+  @ApiQuery({
+    name: 'title',
+    required: false,
+    type: String,
+    description: 'Search Items with title',
+  })
   async paginate(
     @Req() request: Request,
     @Query() { page, limit }: PaginateQuery,
+    @Query()
+    query: {
+      title?: string;
+    },
   ): Promise<ApiResource> {
     try {
       const user = (request as AuthenticatedRequest).user;
-      const reponse = await this.userService.paginate(user, {
-        page,
-        limit,
-      });
+      const reponse = await this.userService.paginate(
+        user,
+        {
+          page,
+          limit,
+        },
+        query,
+      );
 
       return ApiResource.successResponse(reponse);
     } catch (error) {
