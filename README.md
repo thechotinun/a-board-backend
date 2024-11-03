@@ -6,6 +6,47 @@
 ```bash
 Node version >=v20.18.0 
 ```
+## Relationship Diagram
+```mermaid
+erDiagram
+    User ||--o{ OauthUser : has
+    User ||--o{ Post : creates
+    User ||--o{ PostComment : writes
+    Community ||--o{ Post : contains
+    Post ||--o{ PostComment : has
+
+    User {
+        uuid id PK
+        varchar userName
+    }
+
+    OauthUser {
+        uuid id PK
+        uuid userId FK
+        uuid accessToken
+        uuid refreshToken
+    }
+
+    Community {
+        uuid id PK
+        varchar name
+    }
+
+    Post {
+        uuid id PK
+        varchar title
+        text description
+        uuid communityId FK
+        uuid userId FK
+    }
+
+    PostComment {
+        uuid id PK
+        text text
+        uuid postId FK
+        uuid userId FK
+    }
+```
 
 ## Installation
 
