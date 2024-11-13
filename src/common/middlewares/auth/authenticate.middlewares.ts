@@ -15,7 +15,7 @@ export class AuthenticateMiddleware implements NestMiddleware {
   ) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
-    if (!req.headers.authorization) return AuthException.Unauthorized();
+    if (!req.headers.authorization) throw AuthException.Unauthorized();
 
     const [type, token] = req.headers.authorization?.split(' ') ?? [];
 
@@ -30,7 +30,7 @@ export class AuthenticateMiddleware implements NestMiddleware {
         });
         (req as AuthenticatedRequest).user = profile;
       } catch (error) {
-        return AuthException.Unauthorized();
+        throw AuthException.Unauthorized();
       }
     }
 
