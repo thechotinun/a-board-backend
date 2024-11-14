@@ -38,7 +38,7 @@ export class AuthService {
   async createOauthUser(user: User): Promise<OauthUser> {
     try {
       const created: OauthUser = await this.oAuthUserRepository.create({
-        user: user.id,
+        userId: user.id,
       });
 
       return await this.oAuthUserRepository.save(created);

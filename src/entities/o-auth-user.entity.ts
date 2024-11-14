@@ -14,10 +14,13 @@ export class OauthUser {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'userId', type: 'uuid' })
-  @ManyToOne(() => User)
+  @Column({ type: 'uuid' })
+  userId: string;
+
+  // @Column({ name: 'userId', type: 'uuid' })
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
-  user: string;
+  user: User;
 
   @Column({ type: 'uuid' })
   accessToken: string;

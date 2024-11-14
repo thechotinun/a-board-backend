@@ -87,7 +87,7 @@ describe('AuthService', () => {
 
       const mockOAuthUser = {
         id: '1',
-        user: '1',
+        userId: '1',
         accessToken: 'access-token',
         refreshToken: 'refresh-token',
       };
@@ -122,7 +122,7 @@ describe('AuthService', () => {
         loginDto.userName,
       );
       expect(oAuthUserRepository.create).toHaveBeenCalledWith({
-        user: mockUser.id,
+        userId: mockUser.id,
       });
     });
 
