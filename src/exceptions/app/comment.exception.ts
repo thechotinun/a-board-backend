@@ -6,7 +6,7 @@ export class CommentException extends ApiException {
    * @returns ApiException
    */
   static notFound(): ApiException {
-    throw new ApiException(100301, [], HttpStatus.OK);
+    return new ApiException(100301, [], HttpStatus.OK);
   }
 
   /**
@@ -14,7 +14,7 @@ export class CommentException extends ApiException {
    * @returns ApiException
    */
   static deleteError(error?: string[]): ApiException {
-    throw new ApiException(100302, error);
+    return new ApiException(100302, error);
   }
 
   /**
@@ -22,7 +22,7 @@ export class CommentException extends ApiException {
    * @returns ApiException
    */
   static createError(error?: string[]): ApiException {
-    throw new ApiException(100303, error);
+    return new ApiException(100303, error);
   }
 
   /**
@@ -30,6 +30,6 @@ export class CommentException extends ApiException {
    * @returns ApiException
    */
   static updateError(error?: string[]): ApiException {
-    throw new ApiException(100304, error);
+    return new ApiException(100304, error);
   }
 }

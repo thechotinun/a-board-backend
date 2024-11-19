@@ -20,7 +20,7 @@
       "@common/*": ["common/*"],
       "@test/*": ["test/*"],
       "@exceptions/*": ["exceptions/*"],
-      "@middleware/*": ["common/middlewares/*"]
+      "@middlewares/*": ["common/middlewares/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

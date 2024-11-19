@@ -7,6 +7,6 @@ export class AuthException extends ApiException {
    * @returns ApiException
    */
   static Unauthorized(error?: string[]): ApiException {
-    throw new ApiException(900403, error, HttpStatus.FORBIDDEN);
+    return new ApiException(900403, error, HttpStatus.FORBIDDEN);
   }
 }
