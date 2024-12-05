@@ -4,7 +4,7 @@
 
 ## Require
 ```bash
-Node version >=v20.18.0 
+Node version >= v20.18.0 
 ```
 ## Relationship Diagram
 ```mermaid

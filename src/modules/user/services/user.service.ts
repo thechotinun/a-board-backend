@@ -38,9 +38,9 @@ export class UserService implements OnModuleInit {
       if (!existingUser) {
         const user = this.userRepository.create({ userName });
         await this.userRepository.save(user);
-        this.logger.log(`You can sign-in with username: "${userName}"`);
+        this.logger.debug(`You can sign-in with username: "${userName}"`);
       } else {
-        this.logger.debug(`username: "${userName}" already exists`);
+        this.logger.log(`username: "${userName}" already exists`);
       }
     }
   }
