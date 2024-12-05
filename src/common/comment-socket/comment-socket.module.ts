@@ -5,6 +5,7 @@ import { AuthService } from '@modules/auth/services/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { OauthUserRepository } from '@repositories/o-auth.repository';
 import { UserRepository } from '@repositories/user.repository';
+import { Logger } from '@utils/logger/logger.service';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserRepository } from '@repositories/user.repository';
     AuthService,
     OauthUserRepository,
     UserRepository,
+    Logger,
   ],
   exports: [CommentSocketService],
 })
