@@ -12,6 +12,7 @@ import { Injectable } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import { CommentSocketService } from './comment-socket.service';
 import { CommentPayload, CommentResponse } from './comment-socket.interface';
+import { AuthService } from '@modules/auth/services/auth.service';
 
 @WebSocketGateway({
   cors: { origin: '*' },
@@ -28,7 +29,10 @@ export class CommentSocketGateway
 
   private clientRooms = new Map<string, Set<string>>();
 
-  constructor(private commentSocketService: CommentSocketService) {}
+  constructor(
+    private commentSocketService: CommentSocketService,
+    private authService: AuthService,
+  ) {}
 
   handleConnection(client: Socket) {
     console.log(`Client connected: ${client.id}`);
@@ -54,6 +58,10 @@ export class CommentSocketGateway
     @MessageBody() payload: CommentPayload,
   ) {
     try {
+      const token = client.handshake.headers.authorization;
+      if (!token) return client.disconnect();
+      const payloadToken = await this.authService.validateToken(token);
+      const user = JSON.stringify(payloadToken.user);
       const roomName = `post_${payload.postId}`;
 
       const response = {
