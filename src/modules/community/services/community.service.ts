@@ -41,9 +41,9 @@ export class CommunityService implements OnModuleInit {
       if (!existingCommunity) {
         const community = this.communityRepository.create({ name });
         await this.communityRepository.save(community);
-        this.logger.log(`Community "${name}" created.`);
+        this.logger.debug(`Community "${name}" created.`);
       } else {
-        this.logger.debug(`Community "${name}" already exists.`);
+        this.logger.log(`Community "${name}" already exists.`);
       }
     }
   }

@@ -13,7 +13,7 @@ async function bootstrap() {
   const configService = app.get<ConfigService>(ConfigService);
 
   app.enableCors({
-    origin: [configService.get<string>('APP_URL')],
+    origin: '*',
     methods: 'GET, PUT, PATCH, POST, DELETE',
     allowedHeaders: 'Content-Type, Authorization',
   });
@@ -36,8 +36,8 @@ async function bootstrap() {
       SwaggerModule.createDocument(
         app,
         new DocumentBuilder()
-          .setTitle('a-board')
-          .setVersion('1.0')
+          .setTitle(`${configService.get<string>('name')}`)
+          .setVersion(`${configService.get<string>('version')}`)
           .addBearerAuth()
           .build(),
       ),
