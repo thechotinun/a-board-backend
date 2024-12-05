@@ -7,8 +7,8 @@ import { UserRepository } from '@repositories/user.repository';
 import { PostRepository } from '@repositories/post.repository';
 import { AuthenticateMiddleware } from '@common/middlewares/auth/authenticate.middlewares';
 import { AuthModule } from '@modules/auth/auth.module';
-import { Logger } from '@common/logger/logger.service';
-import { LoggerModule } from '@common/logger/logger.module';
+import { Logger } from '@utils/logger/logger.service';
+import { LoggerModule } from '@utils/logger/logger.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), AuthModule, LoggerModule],

@@ -4,7 +4,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostRepository } from '@repositories/post.repository';
 import { UserRepository } from '@repositories/user.repository';
-import { Logger } from '@common/logger/logger.service';
+import { Logger } from '@utils/logger/logger.service';
 import {
   IPaginationOptions,
   Pagination,

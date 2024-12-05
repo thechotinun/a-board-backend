@@ -7,7 +7,7 @@ import {
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
-import { Logger } from '@common/logger/logger.service';
+import { Logger } from '@utils/logger/logger.service';
 
 @Injectable()
 export class CommunityService implements OnModuleInit {
