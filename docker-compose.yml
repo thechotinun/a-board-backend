@@ -39,9 +39,9 @@ services:
     networks:
       - network-morroc
 
-  nginx-a-board-backend:
+  a-board-backend-nginx:
     image: nginx:alpine
-    container_name: nginx-a-board-backend
+    container_name: a-board-backend-nginx
     ports:
       - "3200:80"
     volumes:
