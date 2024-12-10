@@ -68,7 +68,7 @@ pipeline {
         stage('Docker Build and Deploy') {
             steps {
                 script {
-                    sh 'cat nginx.conf'
+                    // sh 'cat nginx.conf'
                     // Stop and remove existing containers
                     sh 'docker-compose down --rmi all || true'
                     
@@ -91,8 +91,8 @@ pipeline {
                     '''
 
                     sh '''
-                        sudo chown root:root nginx.conf
-                        sudo chmod 644 nginx.conf
+                        chmod 644 nginx.conf
+                        chown $(id -u):$(id -g) nginx.conf
                     '''
 
                     sh '''
