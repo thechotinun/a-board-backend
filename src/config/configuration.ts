@@ -31,7 +31,7 @@ export default () => {
       },
       refresh: {
         secret: process.env.JWT_REFRESH_SECRET,
-        expire: process.env.JWT_REFRESH__EXPIRE || '1h',
+        expire: process.env.JWT_REFRESH_EXPIRE || '1h',
       },
     },
     PER_PAGE: process.env.PER_PAGE || 30,

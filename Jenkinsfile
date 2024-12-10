@@ -15,7 +15,7 @@ pipeline {
         JWT_ACCESS_SECRET=credentials('JWT_ACCESS_SECRET')
         JWT_ACCESS_EXPIRE=credentials('JWT_ACCESS_EXPIRE')
         JWT_REFRESH_SECRET=credentials('JWT_REFRESH_SECRET')
-        JWT_REFRESH__EXPIRE=credentials('JWT_REFRESH__EXPIRE')
+        JWT_REFRESH_EXPIRE=credentials('JWT_REFRESH_EXPIRE')
         
         // Application Configuration
         PORT=credentials('PORT')
@@ -64,11 +64,6 @@ pipeline {
         stage('Docker Build and Deploy') {
             steps {
                 script {
-                    echo "JWT_ACCESS_SECRET: ${env.JWT_ACCESS_SECRET}"
-                }
-            }
-            steps {
-                script {
                     // Stop and remove existing containers
                     sh 'docker-compose down --rmi all'
                     
@@ -86,7 +81,7 @@ pipeline {
                             --build-arg JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET} \
                             --build-arg JWT_ACCESS_EXPIRE=${JWT_ACCESS_EXPIRE} \
                             --build-arg JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET} \
-                            --build-arg JWT_REFRESH__EXPIRE=${JWT_REFRESH__EXPIRE} \
+                            --build-arg JWT_REFRESH_EXPIRE=${JWT_REFRESH_EXPIRE} \
                             --build-arg PER_PAGE=${PER_PAGE}
                         
                         docker-compose up -d

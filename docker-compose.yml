@@ -15,7 +15,7 @@ services:
         - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
         - JWT_ACCESS_EXPIRE=${JWT_ACCESS_EXPIRE}
         - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
-        - JWT_REFRESH__EXPIRE=${JWT_REFRESH__EXPIRE}
+        - JWT_REFRESH_EXPIRE=${JWT_REFRESH_EXPIRE}
         - PER_PAGE=${PER_PAGE}
     container_name: a-board-backend
     # env_file: #for example local build docker
@@ -32,7 +32,7 @@ services:
       - JWT_ACCESS_SECRET
       - JWT_ACCESS_EXPIRE
       - JWT_REFRESH_SECRET
-      - JWT_REFRESH__EXPIRE
+      - JWT_REFRESH_EXPIRE
       - PER_PAGE
     expose:
       - "3200"
