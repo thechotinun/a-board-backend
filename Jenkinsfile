@@ -30,46 +30,47 @@ pipeline {
     }
 
     stages {
-        // stage('Install Dependencies') {
-        //     steps {
-        //         sh 'npm install'
-        //     }
-        // }
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
 
-        // stage('Lint') {
-        //     steps {
-        //         sh 'npm run lint'
-        //     }
-        // }
+        stage('Lint') {
+            steps {
+                sh 'npm run lint'
+            }
+        }
 
-        // stage('Unit Tests') {
-        //     steps {
-        //         sh 'npm run test'
-        //     }
-        //     post {
-        //         always {
-        //             junit 'test-results/*.xml'
-        //         }
-        //     }
-        // }
+        stage('Unit Tests') {
+            steps {
+                sh 'npm run test'
+            }
+            post {
+                always {
+                    junit 'test-results/*.xml'
+                }
+            }
+        }
 
-        // stage('Integration Tests') {
-        //     steps {
-        //         sh 'npm run test:e2e'
-        //     }
-        // }
+        stage('Integration Tests') {
+            steps {
+                sh 'npm run test:e2e'
+            }
+        }
 
-        // stage('Build') {
-        //     steps {
-        //         sh 'npm run build'
-        //     }
-        // }
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
 
         stage('Docker Build and Deploy') {
             steps {
                 script {
+
                     // Stop and remove existing containers
-                    sh 'docker-compose down --rmi all'
+                    sh 'docker-compose down --rmi all || true'
                     
                     // Build and run new containers
                     sh '''
@@ -87,7 +88,15 @@ pipeline {
                             --build-arg JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET} \
                             --build-arg JWT_REFRESH_EXPIRE=${JWT_REFRESH_EXPIRE} \
                             --build-arg PER_PAGE=${PER_PAGE}
-                        
+                    '''
+
+                    sh '''
+                        chmod 644 nginx.conf
+                        ls -la nginx.conf
+                    '''
+
+                    sh '''
+                        docker-compose build --no-cache
                         docker-compose up -d
                     '''
                 }
