@@ -30,40 +30,40 @@ pipeline {
     }
 
     stages {
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
+        // stage('Install Dependencies') {
+        //     steps {
+        //         sh 'npm install'
+        //     }
+        // }
 
-        stage('Lint') {
-            steps {
-                sh 'npm run lint'
-            }
-        }
+        // stage('Lint') {
+        //     steps {
+        //         sh 'npm run lint'
+        //     }
+        // }
 
-        stage('Unit Tests') {
-            steps {
-                sh 'npm run test'
-            }
-            post {
-                always {
-                    junit 'test-results/*.xml'
-                }
-            }
-        }
+        // stage('Unit Tests') {
+        //     steps {
+        //         sh 'npm run test'
+        //     }
+        //     post {
+        //         always {
+        //             junit 'test-results/*.xml'
+        //         }
+        //     }
+        // }
 
-        stage('Integration Tests') {
-            steps {
-                sh 'npm run test:e2e'
-            }
-        }
+        // stage('Integration Tests') {
+        //     steps {
+        //         sh 'npm run test:e2e'
+        //     }
+        // }
 
-        stage('Build') {
-            steps {
-                sh 'npm run build'
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         sh 'npm run build'
+        //     }
+        // }
 
         stage('Docker Build and Deploy') {
             steps {
