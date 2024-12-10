@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'Node16'
+    }
+
     environment {
         // Database Configuration
         DATABASE_TYPE=credentials('DATABASE_TYPE')
@@ -93,9 +97,7 @@ pipeline {
 
     post {
         always {
-            node {  // cleanWs
-                cleanWs()
-            }
+            cleanWs()
         }
         success {
             echo 'Pipeline completed successfully!'
