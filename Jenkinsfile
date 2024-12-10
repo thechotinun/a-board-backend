@@ -26,13 +26,6 @@ pipeline {
     }
 
     stages {
-        stage('Docker Build and Deploy') {
-            steps {
-                script {
-                    echo "JWT_ACCESS_SECRET: ${env.JWT_ACCESS_SECRET}"
-                }
-            }
-        }
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
@@ -69,6 +62,11 @@ pipeline {
         }
 
         stage('Docker Build and Deploy') {
+            steps {
+                script {
+                    echo "JWT_ACCESS_SECRET: ${env.JWT_ACCESS_SECRET}"
+                }
+            }
             steps {
                 script {
                     // Stop and remove existing containers
