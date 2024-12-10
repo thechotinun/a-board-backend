@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs "NodeJs"
+    }
+
     environment {
         // Database Configuration
         DATABASE_TYPE=credentials('DATABASE_TYPE')
