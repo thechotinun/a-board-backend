@@ -93,8 +93,9 @@ pipeline {
 
     post {
         always {
-            // Clean workspace
-            cleanWs()
+            node {  // cleanWs
+                cleanWs()
+            }
         }
         success {
             echo 'Pipeline completed successfully!'
