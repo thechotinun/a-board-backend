@@ -4,7 +4,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostRepository } from '@repositories/post.repository';
 import { UserRepository } from '@repositories/user.repository';
-import { Logger } from '@common/logger/logger.service';
+import { Logger } from '@utils/logger/logger.service';
 import {
   IPaginationOptions,
   Pagination,
@@ -38,9 +38,9 @@ export class UserService implements OnModuleInit {
       if (!existingUser) {
         const user = this.userRepository.create({ userName });
         await this.userRepository.save(user);
-        this.logger.log(`You can sign-in with username: "${userName}"`);
+        this.logger.debug(`You can sign-in with username: "${userName}"`);
       } else {
-        this.logger.debug(`username: "${userName}" already exists`);
+        this.logger.log(`username: "${userName}" already exists`);
       }
     }
   }

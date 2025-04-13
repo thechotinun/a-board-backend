@@ -4,7 +4,7 @@
 
 ## Require
 ```bash
-Node version >=v20.18.0 
+Node version >= v20.18.0 
 ```
 ## Relationship Diagram
 ```mermaid
@@ -71,7 +71,7 @@ DATABASE_SYNC=true
 JWT_ACCESS_SECRET=TNkeXPXrplDF1xLena6WEXVBHXcTxKpe
 JWT_ACCESS_EXPIRE=30m
 JWT_REFRESH_SECRET=yxum8SoPm7oYtToNDd4JGwPJ83ZiJJx3
-JWT_REFRESH__EXPIRE=1h
+JWT_REFRESH_EXPIRE=1h
 
 PER_PAGE=10
 ```

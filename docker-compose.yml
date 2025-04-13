@@ -1,0 +1,56 @@
+services:
+  a-board-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - PORT=${PORT}
+        - DATABASE_TYPE=${DATABASE_TYPE}
+        - DATABASE_HOST=${DATABASE_HOST}
+        - DATABASE_PORT=${DATABASE_PORT}
+        - DATABASE_NAME=${DATABASE_NAME}
+        - DATABASE_USER=${DATABASE_USER}
+        - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+        - DATABASE_SYNC=${DATABASE_SYNC}
+        - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+        - JWT_ACCESS_EXPIRE=${JWT_ACCESS_EXPIRE}
+        - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+        - JWT_REFRESH_EXPIRE=${JWT_REFRESH_EXPIRE}
+        - PER_PAGE=${PER_PAGE}
+    container_name: a-board-backend
+    # env_file: #for example local build docker
+    #   - .env
+    environment:
+      - PORT
+      - DATABASE_TYPE
+      - DATABASE_HOST
+      - DATABASE_PORT
+      - DATABASE_NAME
+      - DATABASE_USER
+      - DATABASE_PASSWORD
+      - DATABASE_SYNC
+      - JWT_ACCESS_SECRET
+      - JWT_ACCESS_EXPIRE
+      - JWT_REFRESH_SECRET
+      - JWT_REFRESH_EXPIRE
+      - PER_PAGE
+    expose:
+      - "3200"
+    networks:
+      - network-morroc
+
+  a-board-backend-nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: a-board-backend-nginx
+    ports:
+      - "3200:80"
+    depends_on:
+      - a-board-backend
+    networks:
+      - network-morroc
+
+networks:
+  network-morroc:
+    external: true

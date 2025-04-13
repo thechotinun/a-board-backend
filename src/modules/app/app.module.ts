@@ -10,6 +10,7 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { PostModule } from '@modules/post/post.module';
 import { UserModule } from '@modules/user/user.module';
 import { CommunityModule } from '@modules/community/community.module';
+import { CommentSocketModule } from '@common/comment-socket/comment-socket.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CommunityModule } from '@modules/community/community.module';
     PostModule,
     UserModule,
     CommunityModule,
+    CommentSocketModule,
   ],
   controllers: [],
   providers: [
